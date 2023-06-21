@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import type { RootState } from '../../config/redux/store';
+import { LoginUserForm } from '../../views/LogIn/LogIn.types';
 import { SignInUserForm } from '../../views/SignIn/SignInForm/SignInForm.types';
 import { User } from './types/user.types';
 
@@ -15,7 +16,7 @@ export const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
-    logInUser: (state) => {
+    logInUser: (state, { payload }: PayloadAction<LoginUserForm>) => {
       state.userInfo = undefined;
     },
     logOutUser: (state) => {

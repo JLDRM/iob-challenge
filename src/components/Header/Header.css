@@ -1,8 +1,16 @@
 .Header {
   display: flex;
+  justify-content: space-between;
   align-items: center;
   font-size: calc(10px + 2vmin);
   background-color: #7b4687;
+}
+
+.Header-routes {
+  display: flex;
+  align-items: center;
+  margin: 0 2rem;
+  gap: 2rem;
 }
 
 .Header a {

@@ -9,9 +9,16 @@ const Header = (): JSX.Element => {
         <img src={logo} className="Header-logo" alt="logo" />
       </Link>
 
-      <Link to='/signin'>
-        <p>Sign in</p>
-      </Link>
+      <div className="Header-routes">
+        <Link to='/login'>
+          <p>Log in</p>
+        </Link>
+
+        <Link to='/signin'>
+          <p>Sign in</p>
+        </Link>
+      </div>
+
     </header>
   );
 };
