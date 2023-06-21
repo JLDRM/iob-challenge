@@ -1,20 +1,14 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import type { RootState } from '../../config/redux/store';
+import { SignInUserForm } from '../../views/SignIn/SignInForm/SignInForm.types';
 import { User } from './types/user.types';
 
 interface UserState {
-  user: User | undefined;
+  userInfo: User | undefined;
 }
 
 const initialState: UserState = {
-  user: undefined,
-};
-
-const fakeUser: User = {
-  name: 'test',
-  email: 'test@test.com',
-  description: 'test',
-  profileImageKey: 'test'
+  userInfo: undefined,
 };
 
 export const userSlice = createSlice({
@@ -22,13 +16,13 @@ export const userSlice = createSlice({
   initialState,
   reducers: {
     logInUser: (state) => {
-      state.user = fakeUser;
+      state.userInfo = undefined;
     },
     logOutUser: (state) => {
-      state.user = undefined;
+      state.userInfo = undefined;
     },
-    signInUser: (state) => {
-      state.user = fakeUser;
+    signInUser: (state, { payload }: PayloadAction<SignInUserForm>) => {
+      state.userInfo = { name: payload?.userName, email: payload.userEmail, description: payload.userDescription };
     },
   },
 });

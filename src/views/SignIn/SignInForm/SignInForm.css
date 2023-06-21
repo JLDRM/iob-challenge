@@ -1,0 +1,22 @@
+.SignInForm {
+  font-size: calc(10px + 2vmin);
+  color: white;
+  display: flex;
+  flex-flow: column wrap;
+  justify-content: center;
+  gap: 3rem;
+  margin: auto;
+}
+
+.SignInForm-fieldSet {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.SignInForm button {
+  font-size: calc(10px + 2vmin);
+  padding: 10px 20px;
+  background-color: #7b4687;
+  color: #e498f5;
+}

@@ -1,8 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { Provider } from 'react-redux';
-import App from './App';
+import { RouterProvider } from 'react-router-dom';
 import { store } from './config/redux/store';
+import router from './config/router/router';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
 
@@ -12,7 +13,7 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <Provider store={store}>
-      <App />
+      <RouterProvider router={router} />
     </Provider>
   </React.StrictMode>
 );

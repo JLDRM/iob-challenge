@@ -1,6 +1,5 @@
 export interface User {
-  name: string;
-  email: string;
-  description: string;
-  profileImageKey: string;
+  name: string | undefined;
+  email: string | undefined;
+  description: string | undefined;
 }
