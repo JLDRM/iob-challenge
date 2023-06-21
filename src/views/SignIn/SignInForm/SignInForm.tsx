@@ -1,4 +1,5 @@
 import { SubmitErrorHandler, SubmitHandler, useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 import FieldSet from "../../../components/FieldSet/FieldSet";
 import InputField from "../../../components/InputField/InputField";
 import { useAppDispatch } from "../../../config/redux/hooks";
@@ -8,12 +9,14 @@ import { SignInUserForm, SIGNIN_FORM_DEFAULT } from "./SignInForm.types";
 
 const SignInForm = (): JSX.Element => {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const { register, handleSubmit, watch, formState: { errors } } = useForm({ defaultValues: SIGNIN_FORM_DEFAULT });
 
   const watchPassword = watch('userPassword');
 
   const onValid: SubmitHandler<SignInUserForm> = (formValues) => {
     dispatch(signInUser(formValues));
+    navigate('/', { replace: true });
   };
 
   const onInvalid: SubmitErrorHandler<SignInUserForm> = (errors) => {

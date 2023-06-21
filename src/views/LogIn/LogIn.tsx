@@ -1,18 +1,21 @@
 import { SubmitErrorHandler, SubmitHandler, useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 import FieldSet from "../../components/FieldSet/FieldSet";
 import InputField from "../../components/InputField/InputField";
 import { useAppDispatch } from "../../config/redux/hooks";
 import { logInUser } from "../../resources/user/user.slice";
-import { LoginUserForm, LOGIN_DEFAULT_FORM } from "./LogIn.types";
 import './LogIn.css';
+import { LoginUserForm, LOGIN_DEFAULT_FORM } from "./LogIn.types";
 
 const LogIn = (): JSX.Element => {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const { register, handleSubmit, formState: { errors } } = useForm({ defaultValues: LOGIN_DEFAULT_FORM });
 
 
   const onValid: SubmitHandler<LoginUserForm> = (formValues) => {
     dispatch(logInUser(formValues));
+    navigate('/', { replace: true });
   };
 
   const onInvalid: SubmitErrorHandler<LoginUserForm> = (errors) => {

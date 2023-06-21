@@ -17,7 +17,7 @@ export const userSlice = createSlice({
   initialState,
   reducers: {
     logInUser: (state, { payload }: PayloadAction<LoginUserForm>) => {
-      state.userInfo = undefined;
+      state.userInfo = { ...state.userInfo, email: payload.email, name: payload.email };
     },
     logOutUser: (state) => {
       state.userInfo = undefined;
