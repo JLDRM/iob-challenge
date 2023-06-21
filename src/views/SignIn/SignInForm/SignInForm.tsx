@@ -1,4 +1,5 @@
 import { SubmitErrorHandler, SubmitHandler, useForm } from "react-hook-form";
+import FieldSet from "../../../components/FieldSet/FieldSet";
 import InputField from "../../../components/InputField/InputField";
 import { useAppDispatch } from "../../../config/redux/hooks";
 import { signInUser } from "../../../resources/user/user.slice";
@@ -27,12 +28,12 @@ const SignInForm = (): JSX.Element => {
   return (
     <form className="SignInForm" onSubmit={handleSubmit(onValid, onInvalid)}>
 
-      <div className="SignInForm-fieldSet">
-        <InputField label='Name:' htmlFor='userName' error={errors?.userName}>
+      <FieldSet>
+        <InputField label='Name:*' htmlFor='userName' error={errors?.userName}>
           <input type="text" id="userName" {...register('userName', { required: 'This field is required' })} />
         </InputField>
 
-        <InputField label="Email:" htmlFor="userEmail" error={errors?.userEmail}>
+        <InputField label="Email:*" htmlFor="userEmail" error={errors?.userEmail}>
           <input type="text" id="userEmail"  {...register('userEmail', { required: 'This field is required', pattern: { value: /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/, message: 'Must be a correct email' } })} />
         </InputField>
 
@@ -40,17 +41,17 @@ const SignInForm = (): JSX.Element => {
           <input type="text" id="userDescription"  {...register('userDescription')} />
         </InputField>
 
-        <InputField label="Password:" htmlFor="userPassword" error={errors?.userPassword}>
+        <InputField label="Password:*" htmlFor="userPassword" error={errors?.userPassword}>
           <input type="password" id="userPassword"  {...register('userPassword', { required: 'This field is required' })} />
         </InputField>
 
-        <InputField label="Password confirm:" htmlFor="userPasswordConfirm" error={errors?.userPasswordConfirm}>
+        <InputField label="Password confirm:*" htmlFor="userPasswordConfirm" error={errors?.userPasswordConfirm}>
           <input type="password" id="userPasswordConfirm"  {...register('userPasswordConfirm', { required: 'This field is required', validate: { 'nonEqualPass': (val) => checkPassEquality(val, watchPassword) } })} />
         </InputField>
-      </div>
+      </FieldSet>
 
-      <button type="submit">Register</button>
-    </form>
+      <button type="submit" className="Button--primary">Register</button>
+    </form >
   );
 };
 
