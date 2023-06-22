@@ -31,7 +31,7 @@ const LogIn = (): JSX.Element => {
 
           <FieldSet>
             <InputField label="Email:" htmlFor="email" error={errors?.email}>
-              <input type="text" id="email"  {...register('email', { required: 'This field is required' })} />
+              <input type="text" id="email"  {...register('email', { required: 'This field is required', pattern: { value: /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/, message: 'Must be a correct email' } })} />
             </InputField>
 
             <InputField label="Password:" htmlFor="password" error={errors?.password}>

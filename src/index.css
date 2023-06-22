@@ -5,6 +5,11 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  --color: #7b4687;
+  --color-light: #e498f5;
+  --primary-color: white;
+  --primary-text: black;
 }
 
 code {
@@ -15,7 +20,7 @@ code {
 .Button--primary {
   font-size: calc(10px + 2vmin);
   padding: 10px 20px;
-  background-color: #7b4687;
-  color: #e498f5;
+  background-color: var(--color);
+  color: var(--color-light);
   border: none;
 }

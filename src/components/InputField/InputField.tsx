@@ -1,6 +1,6 @@
 import { clsx } from "clsx";
-import './InputField.css';
 import { PropsWithChildren } from "react";
+import './InputField.css';
 
 export interface InputFieldProps extends PropsWithChildren {
   label: string;
@@ -8,7 +8,7 @@ export interface InputFieldProps extends PropsWithChildren {
   error: any;
 }
 
-const InputField = ({ label, children, htmlFor, error }: InputFieldProps): JSX.Element => {
+const InputField = ({ label, children, htmlFor, error }: InputFieldProps) => {
   return (
     <div className={clsx('InputField-container', error && 'InputField-container--error')} >
       {label && <label htmlFor={htmlFor}><p>{label}</p></label>}

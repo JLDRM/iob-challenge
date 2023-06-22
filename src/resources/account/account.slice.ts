@@ -17,19 +17,6 @@ const initialState: AccountState = {
   emitingTransaction: false,
 };
 
-export const getUserBalance = createAsyncThunk(
-  'account/getBalance',
-  async (userEmail: string) => {
-    const response: { balance: number; userEmail: string; } = await new Promise((res) => {
-      return setTimeout(() => {
-        res({ balance: 2000, userEmail });
-      }, 200);
-    });
-
-    return response;
-  }
-);
-
 export const emitDeposit = createAsyncThunk(
   'account/emitDeposit',
   async (args: { amount: number; to: string; }) => {
@@ -39,7 +26,7 @@ export const emitDeposit = createAsyncThunk(
     } = await new Promise((res) => {
       return setTimeout(() => {
         res(args);
-      }, 200);
+      }, 500);
     });
 
     return response;
@@ -52,7 +39,7 @@ export const emitTransaction = createAsyncThunk(
     const response: { amount: number, from: string, to: string; } = await new Promise((res) => {
       return setTimeout(() => {
         res(args);
-      }, 200);
+      }, 500);
     });
 
     return response;
@@ -64,32 +51,23 @@ export const accountSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(getUserBalance.pending, (state) => {
-      state.loadingBalance = true;
-    });
-    builder.addCase(getUserBalance.fulfilled, (state, { payload }) => {
-      state.loadingBalance = false;
-      state.balance = payload.balance;
-    });
-    builder.addCase(getUserBalance.rejected, (state) => {
-      state.loadingBalance = false;
-    });
-    builder.addCase(emitTransaction.pending, (state) => {
+    builder.addCase(emitDeposit.pending, (state) => {
       state.emitingTransaction = true;
     });
     builder.addCase(emitDeposit.fulfilled, (state, { payload }) => {
       state.emitingTransaction = false;
-      state.transactions.push({ ...payload, id: uuidv4(), operationDate: new Date() });
+      state.transactions.push({ ...payload, id: uuidv4(), operationDate: Date.now() });
+      state.balance += payload.amount;
     });
     builder.addCase(emitDeposit.rejected, (state) => {
       state.emitingTransaction = false;
     });
-    builder.addCase(emitDeposit.pending, (state) => {
+    builder.addCase(emitTransaction.pending, (state) => {
       state.emitingTransaction = true;
     });
     builder.addCase(emitTransaction.fulfilled, (state, { payload }) => {
       state.emitingTransaction = false;
-      state.transactions.push({ ...payload, id: uuidv4(), operationDate: new Date() });
+      state.transactions.push({ ...payload, id: uuidv4(), operationDate: Date.now() });
     });
     builder.addCase(emitTransaction.rejected, (state) => {
       state.emitingTransaction = false;

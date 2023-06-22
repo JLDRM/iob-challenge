@@ -3,7 +3,7 @@
   justify-content: space-between;
   align-items: center;
   font-size: calc(10px + 2vmin);
-  background-color: #7b4687;
+  background-color: var(--color);
 }
 
 .Header-routes {
@@ -15,7 +15,7 @@
 
 .Header a {
   text-decoration: none;
-  color: #e498f5;
+  color: var(--color-light);
 }
 
 .Header-logo {

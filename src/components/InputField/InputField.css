@@ -11,7 +11,7 @@
 
 .InputField-container input {
   font-size: calc(10px + 2vmin);
-  color: black;
+  color: var(--primary-text);
 }
 
 .InputField-container--error input {

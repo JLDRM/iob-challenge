@@ -1,0 +1,32 @@
+.SimplePortal {
+  position: fixed;
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  background-color: rgba(100, 100, 100, 0.8);
+  top: 0;
+}
+
+.SimplePortal .Modal {
+  position: relative;
+  min-height: 50vh;
+  min-width: 50vw;
+  background-color: var(--primary-color);
+  display: flex;
+  margin: auto;
+}
+
+.SimplePortal .Modal .buttonClose {
+  position: absolute;
+  background-color: transparent;
+  border: none;
+  padding: 1rem;
+  display: flex;
+  opacity: 1;
+  top: 0;
+  right: 0;
+}
+
+.SimplePortal .Modal .buttonClose img {
+  width: 2rem;
+}

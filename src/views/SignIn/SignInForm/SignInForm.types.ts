@@ -1,16 +1,16 @@
 
 export interface SignInUserForm {
-  userName: string | undefined;
-  userEmail: string | undefined;
-  userDescription: string | undefined;
-  userPassword: string | undefined;
-  userPasswordConfirm: string | undefined;
+  userName: string;
+  userEmail: string;
+  userDescription: string;
+  userPassword: string;
+  userPasswordConfirm: string;
 }
 
 export const SIGNIN_FORM_DEFAULT: SignInUserForm = {
-  userName: undefined,
-  userEmail: undefined,
-  userDescription: undefined,
-  userPassword: undefined,
-  userPasswordConfirm: undefined
+  userName: '',
+  userEmail: '',
+  userDescription: '',
+  userPassword: '',
+  userPasswordConfirm: ''
 };
