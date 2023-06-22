@@ -2,6 +2,7 @@
 import { SubmitErrorHandler, SubmitHandler, useForm } from "react-hook-form";
 import FieldSet from "../../../components/FieldSet/FieldSet";
 import InputField from "../../../components/InputField/InputField";
+import InputNumber from "../../../components/InputNumber/InputNumber";
 import SimplePortal, { SimplePortalProps } from "../../../components/SimplePortal/SimplePortal";
 import { useAppDispatch } from "../../../config/redux/hooks";
 import { emitDeposit } from "../../../resources/account/account.slice";
@@ -22,11 +23,6 @@ const MakeDeposit = ({ open, setOpen }: SimplePortalProps): JSX.Element => {
     console.log(errors);
   };
 
-  const matchPositiveWith3Decimals = (input: string) => {
-    var regex = /^\d+(\.\d{1,3})?$/;
-    return regex.test(input);
-  };
-
   return (
     <SimplePortal open={open} setOpen={setOpen}>
       <div className="MakeDepositForm">
@@ -39,11 +35,7 @@ const MakeDeposit = ({ open, setOpen }: SimplePortalProps): JSX.Element => {
             </InputField>
 
             <InputField label="Amount:*" htmlFor="amount" error={errors.amount}>
-              <input type="number" id="amount" {...register('amount', {
-                required: 'This field is required', min: { value: 1, message: 'At least amount of 1' }, valueAsNumber: true, validate: (val) => {
-                  return matchPositiveWith3Decimals(val.toString()) || 'Only positive numbers with 3 decimals';
-                }
-              })} />
+              <InputNumber inputId="amount" register={register} />
             </InputField>
 
             <button type="submit" className="Button--primary">Emit</button>
