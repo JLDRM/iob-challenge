@@ -13,7 +13,7 @@ const InputField = ({ label, children, htmlFor, error }: InputFieldProps) => {
     <div className={clsx('InputField-container', error && 'InputField-container--error')} >
       {label && <label htmlFor={htmlFor}><p>{label}</p></label>}
       {children}
-      {error && <div className="InputField-errorMessage">{error?.message}</div>}
+      {error && <div className="InputField-errorMessage" data-testid={`${htmlFor}-error`}>{error?.message}</div>}
     </div >
   );
 };
