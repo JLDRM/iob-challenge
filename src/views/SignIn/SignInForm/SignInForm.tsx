@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import FieldSet from "../../../components/FieldSet/FieldSet";
 import InputField from "../../../components/InputField/InputField";
 import { useAppDispatch } from "../../../config/redux/hooks";
+import { resetAccountState } from "../../../resources/account/account.slice";
 import { signInUser } from "../../../resources/user/user.slice";
 import './SignInForm.css';
 import { SignInUserForm, SIGNIN_FORM_DEFAULT } from "./SignInForm.types";
@@ -16,6 +17,7 @@ const SignInForm = (): JSX.Element => {
 
   const onValid: SubmitHandler<SignInUserForm> = (formValues) => {
     dispatch(signInUser(formValues));
+    dispatch(resetAccountState());
     navigate('/', { replace: true });
   };
 

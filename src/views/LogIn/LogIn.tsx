@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import FieldSet from "../../components/FieldSet/FieldSet";
 import InputField from "../../components/InputField/InputField";
 import { useAppDispatch } from "../../config/redux/hooks";
+import { resetAccountState } from "../../resources/account/account.slice";
 import { logInUser } from "../../resources/user/user.slice";
 import './LogIn.css';
 import { LoginUserForm, LOGIN_DEFAULT_FORM } from "./LogIn.types";
@@ -15,6 +16,7 @@ const LogIn = (): JSX.Element => {
 
   const onValid: SubmitHandler<LoginUserForm> = (formValues) => {
     dispatch(logInUser(formValues));
+    dispatch(resetAccountState());
     navigate('/', { replace: true });
   };
 

@@ -49,7 +49,11 @@ export const emitTransaction = createAsyncThunk(
 export const accountSlice = createSlice({
   name: 'account',
   initialState,
-  reducers: {},
+  reducers: {
+    resetAccountState: () => {
+      return { ...initialState };
+    }
+  },
   extraReducers: (builder) => {
     builder.addCase(emitDeposit.pending, (state) => {
       state.emitingTransaction = true;
@@ -75,6 +79,8 @@ export const accountSlice = createSlice({
   }
 });
 
+
 export const selectAccount = (state: RootState) => state.account;
 
+export const { resetAccountState } = accountSlice.actions;
 export default accountSlice.reducer;
