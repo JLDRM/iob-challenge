@@ -1,0 +1,39 @@
+.Header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: calc(10px + 2vmin);
+  background-color: var(--color);
+}
+
+.Header-routes {
+  display: flex;
+  align-items: center;
+  margin: 0 2rem;
+  gap: 2rem;
+}
+
+.Header a {
+  text-decoration: none;
+  color: var(--color-light);
+}
+
+.Header-logo {
+  height: 10vmin;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .Header-logo {
+    animation: Header-logo-spin infinite 20s linear;
+  }
+}
+
+@keyframes Header-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}

@@ -1,0 +1,18 @@
+.TransactionsTable {
+  border-collapse: collapse;
+}
+
+.TransactionsTable th {
+  text-align: start;
+  padding: 1rem 2rem;
+}
+
+.TransactionsTable tr td {
+  border-bottom: 1px solid var(--primary-text);
+  padding: 1rem 2rem;
+}
+
+.Operations-menu {
+  display: flex;
+  gap: 2rem
+}

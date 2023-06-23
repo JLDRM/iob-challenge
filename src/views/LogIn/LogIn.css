@@ -1,0 +1,9 @@
+.LogInForm {
+  font-size: calc(10px + 2vmin);
+  color: var(--primary-text);
+  display: flex;
+  flex-flow: column wrap;
+  justify-content: center;
+  gap: 3rem;
+  margin: 0 auto;
+}
