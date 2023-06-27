@@ -1,21 +1,24 @@
-/* eslint-disable no-useless-escape */
 import { SubmitErrorHandler, SubmitHandler, useForm } from "react-hook-form";
 import FieldSet from "../../../components/FieldSet/FieldSet";
 import InputField from "../../../components/InputField/InputField";
 import InputNumber from "../../../components/InputNumber/InputNumber";
 import SimplePortal, { SimplePortalProps } from "../../../components/SimplePortal/SimplePortal";
-import { useAppDispatch } from "../../../config/redux/hooks";
-import { emitDeposit } from "../../../resources/account/account.slice";
+import { useAppDispatch, useAppSelector } from "../../../config/redux/hooks";
+import { emitDeposit } from "../../../resources/accounts/accounts.slice";
+import { selectUsers } from "../../../resources/users/users.slice";
 import './MakeDeposit.css';
 import { MakeDepositForm, MAKE_DEPOSIT_DEFAULT } from "./MakeDeposit.types";
 
 const MakeDeposit = ({ open, setOpen }: SimplePortalProps): JSX.Element => {
   const dispatch = useAppDispatch();
-  const { register, reset, handleSubmit, formState: { errors } } = useForm({ defaultValues: MAKE_DEPOSIT_DEFAULT });
+  const { loggedUser } = useAppSelector(selectUsers);
+  const { register, reset, handleSubmit, formState: { errors } } = useForm({ defaultValues: { ...MAKE_DEPOSIT_DEFAULT, to: loggedUser?.email } });
 
   const onValid: SubmitHandler<MakeDepositForm> = (formValues) => {
-    dispatch(emitDeposit(formValues));
-    reset(MAKE_DEPOSIT_DEFAULT);
+    if (!loggedUser) return;
+    const emitDipositPayload = { to: loggedUser?.email, amount: formValues.amount };
+    dispatch(emitDeposit(emitDipositPayload));
+    reset({ ...MAKE_DEPOSIT_DEFAULT, to: loggedUser?.email });
     setOpen(false);
   };
 
@@ -31,7 +34,7 @@ const MakeDeposit = ({ open, setOpen }: SimplePortalProps): JSX.Element => {
         <form onSubmit={handleSubmit(onValid, onInvalid)} noValidate>
           <FieldSet>
             <InputField label="To:*" htmlFor="to" error={errors.to}>
-              <input type="text" id="to" {...register('to', { required: 'This field is required' })} />
+              <input type="text" id="to" {...register('to', { required: 'This field is required', disabled: true },)} />
             </InputField>
 
             <InputField label="Amount:*" htmlFor="amount" error={errors.amount}>

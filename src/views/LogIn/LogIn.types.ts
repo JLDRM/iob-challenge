@@ -1,9 +1,9 @@
 export interface LoginUserForm {
-  email: string | undefined;
-  password: string | undefined;
+  email: string;
+  password: string;
 }
 
 export const LOGIN_DEFAULT_FORM: LoginUserForm = {
-  email: undefined,
-  password: undefined
+  email: "",
+  password: ""
 };
