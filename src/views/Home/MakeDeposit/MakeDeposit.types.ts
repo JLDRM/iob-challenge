@@ -1,5 +1,5 @@
 export interface MakeDepositForm {
-  to: string;
+  to: string | undefined;
   amount: number;
 }
 

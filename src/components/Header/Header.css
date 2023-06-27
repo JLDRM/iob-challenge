@@ -18,6 +18,10 @@
   color: var(--color-light);
 }
 
+.Header-link {
+  color: var(--color-light);
+}
+
 .Header-logo {
   height: 10vmin;
 }
