@@ -29,6 +29,7 @@ const AccountDetails = (): JSX.Element => {
   };
 
   const userAccount = accounts.find(account => account.userEmail.toLowerCase() === loggedUser?.email.toLowerCase());
+  const userTransactions = transactions.filter(filterTransactionsByLoggedUser);
 
   return (
     <>
@@ -55,7 +56,7 @@ const AccountDetails = (): JSX.Element => {
             <section className="TransactionsSection">
               <h3>Transactions:</h3>
 
-              {transactions.length > 0 ? (
+              {userTransactions.length > 0 ? (
                 <table className="TransactionsTable">
                   <thead>
                     <tr>
@@ -67,7 +68,7 @@ const AccountDetails = (): JSX.Element => {
                   </thead>
 
                   <tbody>
-                    {transactions.filter(filterTransactionsByLoggedUser).map(transaction => {
+                    {userTransactions.map(transaction => {
                       return (
                         <tr key={transaction.id}>
                           <td>{transaction.from ? transaction.from : '-'}</td>
