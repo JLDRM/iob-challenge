@@ -1,6 +1,6 @@
 export interface EmitTransactionForm {
   to: string;
-  from: string;
+  from: string | undefined;
   amount: number;
 }
 

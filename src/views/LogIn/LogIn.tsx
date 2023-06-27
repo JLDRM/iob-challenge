@@ -2,21 +2,22 @@ import { SubmitErrorHandler, SubmitHandler, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import FieldSet from "../../components/FieldSet/FieldSet";
 import InputField from "../../components/InputField/InputField";
-import { useAppDispatch } from "../../config/redux/hooks";
-import { resetAccountState } from "../../resources/account/account.slice";
-import { logInUser } from "../../resources/user/user.slice";
+import { useAppDispatch, useAppSelector } from "../../config/redux/hooks";
+import { logInUser, logOutUser, selectUsers } from "../../resources/users/users.slice";
 import './LogIn.css';
 import { LoginUserForm, LOGIN_DEFAULT_FORM } from "./LogIn.types";
 
 const LogIn = (): JSX.Element => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const { register, handleSubmit, formState: { errors } } = useForm({ defaultValues: LOGIN_DEFAULT_FORM });
+  const { users } = useAppSelector(selectUsers);
+  const { register, handleSubmit, formState: { errors }, watch } = useForm({ defaultValues: LOGIN_DEFAULT_FORM });
 
+  const emailWatch = watch('email');
 
   const onValid: SubmitHandler<LoginUserForm> = (formValues) => {
+    dispatch(logOutUser());
     dispatch(logInUser(formValues));
-    dispatch(resetAccountState());
     navigate('/', { replace: true });
   };
 
@@ -33,11 +34,24 @@ const LogIn = (): JSX.Element => {
 
           <FieldSet>
             <InputField label="Email:" htmlFor="email" error={errors?.email}>
-              <input type="text" id="email"  {...register('email', { required: 'This field is required', pattern: { value: /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/, message: 'Must be a correct email' } })} />
+              <input type="text" id="email"  {...register('email', {
+                required: 'This field is required', pattern: { value: /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/, message: 'Must be a correct email' }, validate: (email) => {
+                  const userExists = users.find(user => user.email.toLowerCase() === email.toLowerCase());
+                  if (!userExists) return 'User not found';
+                  return true;
+                }
+              })} />
             </InputField>
 
             <InputField label="Password:" htmlFor="password" error={errors?.password}>
-              <input type="password" id="password"  {...register('password', { required: 'This field is required' })} />
+              <input type="password" id="password"  {...register('password', {
+                required: 'This field is required', validate: (pass) => {
+                  const userExists = users.find(user => user.email.toLowerCase() === emailWatch.toLowerCase());
+                  if (!userExists) return true;
+                  if (userExists.password === pass) return true;
+                  return 'Incorrect password';
+                }
+              })} />
             </InputField>
           </FieldSet>
 

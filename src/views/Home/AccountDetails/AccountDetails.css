@@ -1,3 +1,7 @@
+.TransactionsSection {
+  overflow-x: scroll;
+}
+
 .TransactionsTable {
   border-collapse: collapse;
 }
