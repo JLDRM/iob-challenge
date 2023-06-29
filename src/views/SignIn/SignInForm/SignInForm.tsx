@@ -1,23 +1,25 @@
+import { InputField } from "jldrmdev-design-system-seed";
 import { SubmitErrorHandler, SubmitHandler, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import FieldSet from "../../../components/FieldSet/FieldSet";
-import InputField from "../../../components/InputField/InputField";
-import { useAppDispatch } from "../../../config/redux/hooks";
-import { resetAccountState } from "../../../resources/account/account.slice";
-import { signInUser } from "../../../resources/user/user.slice";
+import { useAppDispatch, useAppSelector } from "../../../config/redux/hooks";
+import { createAccount } from "../../../resources/accounts/accounts.slice";
+import { logOutUser, selectUsers, signInUser } from "../../../resources/users/users.slice";
 import './SignInForm.css';
 import { SignInUserForm, SIGNIN_FORM_DEFAULT } from "./SignInForm.types";
 
 const SignInForm = (): JSX.Element => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const { users } = useAppSelector(selectUsers);
   const { register, handleSubmit, watch, formState: { errors } } = useForm({ defaultValues: SIGNIN_FORM_DEFAULT });
 
   const watchPassword = watch('userPassword');
 
   const onValid: SubmitHandler<SignInUserForm> = (formValues) => {
+    dispatch(logOutUser());
     dispatch(signInUser(formValues));
-    dispatch(resetAccountState());
+    dispatch(createAccount({ email: formValues.userEmail }));
     navigate('/', { replace: true });
   };
 
@@ -39,7 +41,12 @@ const SignInForm = (): JSX.Element => {
         </InputField>
 
         <InputField label="Email:*" htmlFor="userEmail" error={errors?.userEmail}>
-          <input type="text" id="userEmail"  {...register('userEmail', { required: 'This field is required', pattern: { value: /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/, message: 'Must be a correct email' } })} />
+          <input type="text" id="userEmail"  {...register('userEmail', {
+            required: 'This field is required', pattern: { value: /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/, message: 'Must be a correct email' }, validate: (email) => {
+              if (users.find(user => user.email.toLowerCase() === email.toLowerCase())) return 'Email already in use';
+              return true;
+            }
+          })} />
         </InputField>
 
         <InputField label="Description:" htmlFor="userDescription" error={errors?.userDescription}>

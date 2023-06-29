@@ -1,32 +1,39 @@
 import { useState } from "react";
 import { useAppSelector } from "../../../config/redux/hooks";
-import { selectAccount } from "../../../resources/account/account.slice";
-import { selectUser } from "../../../resources/user/user.slice";
+import { selectAccount } from "../../../resources/accounts/accounts.slice";
+import { Transaction } from "../../../resources/accounts/types/accounts.types";
+import { selectUsers } from "../../../resources/users/users.slice";
 import EmitTransaction from "../EmitTransaction/EmitTransaction";
 import MakeDeposit from "../MakeDeposit/MakeDeposit";
 import './AccountDetails.css';
 
 const AccountDetails = (): JSX.Element => {
-  const { userInfo } = useAppSelector(selectUser);
-  const { balance, loadingBalance, transactions } = useAppSelector(selectAccount);
+  const { loggedUser } = useAppSelector(selectUsers);
+  const { accounts, transactions } = useAppSelector(selectAccount);
 
   const [openMakeDeposit, setOpenMakeDeposit] = useState(false);
   const [openEmitTransaction, setOpenEmitTransaction] = useState(false);
 
   const onMakeDeposit = () => {
-    if (!userInfo?.email) return;
+    if (!loggedUser?.email) return;
     setOpenMakeDeposit(prev => !prev);
   };
 
   const onEmitTransaction = () => {
-    if (!userInfo?.email) return;
+    if (!loggedUser?.email) return;
     setOpenEmitTransaction(prev => !prev);
-
   };
+
+  const filterTransactionsByLoggedUser = (transaction: Transaction) => {
+    return transaction.from?.toLowerCase() === loggedUser?.email?.toLowerCase() || transaction.to?.toLowerCase() === loggedUser?.email?.toLowerCase();
+  };
+
+  const userAccount = accounts.find(account => account.userEmail.toLowerCase() === loggedUser?.email.toLowerCase());
+  const userTransactions = transactions.filter(filterTransactionsByLoggedUser);
 
   return (
     <>
-      {!userInfo?.email ?
+      {!loggedUser?.email ?
         <h2>Identify yourself to continue</h2>
         : (
           <>
@@ -34,7 +41,7 @@ const AccountDetails = (): JSX.Element => {
 
             <section>
               <h3>Balance:</h3>
-              <p>{loadingBalance ? '...loading' : balance.toFixed(3)}</p>
+              <p>{userAccount?.balance.toFixed(3)}</p>
             </section>
 
             <section>
@@ -46,10 +53,10 @@ const AccountDetails = (): JSX.Element => {
               </div>
             </section>
 
-            <section>
+            <section className="TransactionsSection">
               <h3>Transactions:</h3>
 
-              {transactions.length > 0 ? (
+              {userTransactions.length > 0 ? (
                 <table className="TransactionsTable">
                   <thead>
                     <tr>
@@ -61,7 +68,7 @@ const AccountDetails = (): JSX.Element => {
                   </thead>
 
                   <tbody>
-                    {transactions.map(transaction => {
+                    {userTransactions.map(transaction => {
                       return (
                         <tr key={transaction.id}>
                           <td>{transaction.from ? transaction.from : '-'}</td>

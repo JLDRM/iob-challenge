@@ -5,3 +5,8 @@ export interface Transaction {
   to: string;
   operationDate: number;
 };
+
+export interface Account {
+  userEmail: string;
+  balance: number;
+}

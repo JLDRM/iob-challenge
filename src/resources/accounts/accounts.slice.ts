@@ -1,18 +1,16 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { v4 as uuidv4 } from 'uuid';
 import type { RootState } from '../../config/redux/store';
-import { Transaction } from './types/account.types';
+import { Account, Transaction } from './types/accounts.types';
 
-interface AccountState {
-  balance: number;
-  loadingBalance: boolean;
+interface AccountsState {
+  accounts: Account[];
   transactions: Transaction[];
   emitingTransaction: boolean;
 }
 
-const initialState: AccountState = {
-  balance: 0,
-  loadingBalance: false,
+const initialState: AccountsState = {
+  accounts: [],
   transactions: [],
   emitingTransaction: false,
 };
@@ -46,11 +44,14 @@ export const emitTransaction = createAsyncThunk(
   }
 );
 
-export const accountSlice = createSlice({
-  name: 'account',
+export const accountsSlice = createSlice({
+  name: 'accounts',
   initialState,
   reducers: {
-    resetAccountState: () => {
+    createAccount: (state, { payload }: PayloadAction<{ email: string; }>) => {
+      state.accounts.push({ userEmail: payload.email, balance: 0 });
+    },
+    resetAccountsState: () => {
       return { ...initialState };
     }
   },
@@ -61,7 +62,10 @@ export const accountSlice = createSlice({
     builder.addCase(emitDeposit.fulfilled, (state, { payload }) => {
       state.emitingTransaction = false;
       state.transactions.push({ ...payload, id: uuidv4(), operationDate: Date.now() });
-      state.balance += payload.amount;
+      state.accounts.forEach((account: Account) => {
+        if (account.userEmail.toLowerCase() === payload.to.toLowerCase())
+          account.balance += payload.amount;
+      });
     });
     builder.addCase(emitDeposit.rejected, (state) => {
       state.emitingTransaction = false;
@@ -72,6 +76,12 @@ export const accountSlice = createSlice({
     builder.addCase(emitTransaction.fulfilled, (state, { payload }) => {
       state.emitingTransaction = false;
       state.transactions.push({ ...payload, id: uuidv4(), operationDate: Date.now() });
+      state.accounts.forEach((account: Account) => {
+        if (account.userEmail.toLowerCase() === payload.from.toLowerCase())
+          account.balance -= payload.amount;
+        if (account.userEmail.toLowerCase() === payload.to.toLowerCase())
+          account.balance += payload.amount;
+      });
     });
     builder.addCase(emitTransaction.rejected, (state) => {
       state.emitingTransaction = false;
@@ -80,7 +90,8 @@ export const accountSlice = createSlice({
 });
 
 
-export const selectAccount = (state: RootState) => state.account;
+export const selectAccount = (state: RootState) => state.accounts;
 
-export const { resetAccountState } = accountSlice.actions;
-export default accountSlice.reducer;
+export const { createAccount, resetAccountsState } = accountsSlice.actions;
+
+export default accountsSlice.reducer;

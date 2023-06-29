@@ -1,8 +1,13 @@
 import { Link } from 'react-router-dom';
+import { useAppDispatch, useAppSelector } from '../../config/redux/hooks';
+import { logOutUser, selectUsers } from '../../resources/users/users.slice';
 import './Header.css';
 import logo from './logo.svg';
 
 const Header = (): JSX.Element => {
+  const dispatch = useAppDispatch();
+  const { loggedUser } = useAppSelector(selectUsers);
+
   return (
     <header className="Header">
       <Link to='/'>
@@ -10,16 +15,20 @@ const Header = (): JSX.Element => {
       </Link>
 
       <div className="Header-routes">
-        <Link to='/login'>
+        {!loggedUser && <Link to='/login'>
           <p>Log in</p>
-        </Link>
+        </Link>}
 
-        <Link to='/signin'>
-          <p>Sign in</p>
-        </Link>
-      </div>
+        {!loggedUser &&
+          <Link to='/signin'>
+            <p>Sign in</p>
+          </Link>
+        }
 
-    </header>
+        {loggedUser && <p className='Header-link' onClick={() => dispatch(logOutUser())}>Log out</p>}
+      </div >
+
+    </header >
   );
 };
 
