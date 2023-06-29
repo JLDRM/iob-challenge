@@ -1,6 +1,6 @@
+import { InputField } from "jldrmdev-design-system-seed";
 import { SubmitErrorHandler, SubmitHandler, useForm } from "react-hook-form";
 import FieldSet from "../../../components/FieldSet/FieldSet";
-import InputField from "../../../components/InputField/InputField";
 import InputNumber from "../../../components/InputNumber/InputNumber";
 import SimplePortal, { SimplePortalProps } from "../../../components/SimplePortal/SimplePortal";
 import { useAppDispatch, useAppSelector } from "../../../config/redux/hooks";
