@@ -1,7 +1,7 @@
+import { InputField } from "jldrmdev-design-system-seed";
 import { SubmitErrorHandler, SubmitHandler, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import FieldSet from "../../../components/FieldSet/FieldSet";
-import InputField from "../../../components/InputField/InputField";
 import { useAppDispatch, useAppSelector } from "../../../config/redux/hooks";
 import { createAccount } from "../../../resources/accounts/accounts.slice";
 import { logOutUser, selectUsers, signInUser } from "../../../resources/users/users.slice";
